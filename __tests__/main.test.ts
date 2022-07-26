@@ -1,29 +1,57 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
-import * as cp from 'child_process'
+import {expect, jest, test} from '@jest/globals'
+import {login, logout} from '../src/login'
 import * as path from 'path'
-import {expect, test} from '@jest/globals'
+import * as exec from '@actions/exec'
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
+process.env['RUNNER_TEMP'] = path.join(__dirname, 'runner')
+
+const registry = 'https://ahcr.io'
+
+test('loginStandard calls exec', async () => {
+  // @ts-ignore
+  const execSpy = jest
+    .spyOn(exec, 'getExecOutput')
+    .mockImplementation(async () => {
+      // @ts-ignore
+      return {
+        exitCode: expect.any(Number),
+        stdout: expect.any(Function),
+        stderr: expect.any(Function)
+      } as exec.ExecOutput
+    })
+
+  const username = 'hello'
+  const password = 'world'
+
+  await login(registry, username, password)
+
+  expect(execSpy).toHaveBeenCalledWith(
+    `acorn`,
+    ['login', '--password-stdin', '--username', username, registry],
+    {
+      input: Buffer.from(password),
+      silent: true,
+      ignoreReturnCode: true
+    }
+  )
 })
 
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
+test('logout calls exec', async () => {
+  // @ts-ignore
+  const execSpy = jest
+    .spyOn(exec, 'getExecOutput')
+    .mockImplementation(async () => {
+      // @ts-ignore
+      return {
+        exitCode: expect.any(Number),
+        stdout: expect.any(Function),
+        stderr: expect.any(Function)
+      } as exec.ExecOutput
+    })
 
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const np = process.execPath
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecFileSyncOptions = {
-    env: process.env
-  }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+  await logout(registry)
+
+  expect(execSpy).toHaveBeenCalledWith(`acorn`, ['logout', registry], {
+    ignoreReturnCode: true
+  })
 })

@@ -1,18 +1,32 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {login, logout} from './login'
+
+async function setup(): Promise<void> {
+  const registry = core.getInput('registry')
+  const username = core.getInput('username')
+  const password = core.getInput('password')
+
+  core.saveState('registry', registry)
+  await login(registry, username, password)
+}
+
+async function teardown(): Promise<void> {
+  const registry = core.getState('registry')
+  await logout(registry)
+}
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    if (core.getState('isPost')) {
+      await teardown()
+    } else {
+      core.saveState('isPost', 'true')
+      await setup()
+    }
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    }
   }
 }
 
