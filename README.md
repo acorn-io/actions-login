@@ -1,8 +1,6 @@
 # actions-login
 
-<p align="left">
-  <a href="https://github.com/acorn-io/actions-login"><img alt="GitHub Actions status" src="https://github.com/acorn-io/actions-login/workflows/Main%20workflow/badge.svg"></a>
-</p>
+[![build-test](https://github.com/acorn-io/actions-login/actions/workflows/test.yml/badge.svg)](https://github.com/acorn-io/actions-login/actions/workflows/test.yml)
 
 GitHub action to install Acorn CLI and spin up a k3s cluster
 
@@ -13,6 +11,10 @@ steps:
 - uses: actions/checkout@master
 - uses: acorn-io/actions-setup@v1
 - uses: acorn-io/actions-login@v1
+  with:
+    registry: ${{secrets.YOUR_REGISTRY}}
+    username: ${{secrets.YOUR_USERNAME}}
+    password: ${{secrets.YOUR_PASSWORD}}
 - run: |
   acorn build . # Whatever you want to do with acorn
 ```
@@ -21,7 +23,7 @@ steps:
 
 | Key        | Default      | Description |
 | ---------- | ------------ | ----------- |
-| `registry` | `ahcr.io`    | Registry address to login to
+| `registry` | `ahcr.io`    | Registry address to login to (e.g. ghcr.io or docker.io)
 | `username` | **Required** | Registry username
 | `password` | **Required** | Registry password
 
