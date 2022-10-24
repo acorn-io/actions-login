@@ -24,3 +24,8 @@ jobs:
           k3s-install: false
           acorn-init: false
       - uses: ./
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
