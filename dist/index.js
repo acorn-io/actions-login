@@ -44,8 +44,8 @@ const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
 function login(registry, username, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!username || !password) {
-            throw new Error('Username and password required');
+        if (!registry || !username || !password) {
+            throw new Error('Registry, username, and password required');
         }
         const args = ['login', '--password-stdin', '--username', username, registry];
         core.info(`Logging into ${registry}...`);

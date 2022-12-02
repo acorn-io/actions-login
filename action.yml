@@ -4,8 +4,7 @@ author: 'Acorn Labs, Inc.'
 inputs:
   registry:
     description: 'Registry server address'
-    default: ahcr.io
-    required: false
+    required: true
   username:
     description: 'Username'
     required: true
