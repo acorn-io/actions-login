@@ -23,7 +23,7 @@ steps:
 
 | Key        | Default      | Description |
 | ---------- | ------------ | ----------- |
-| `registry` | `ahcr.io`    | Registry address to login to (e.g. ghcr.io or docker.io)
+| `registry` | **Required** | Registry address to login to (e.g. ghcr.io or docker.io)
 | `username` | **Required** | Registry username
 | `password` | **Required** | Registry password
 
