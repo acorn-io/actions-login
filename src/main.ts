@@ -5,7 +5,7 @@ async function setup(): Promise<void> {
   const registry = core.getInput('registry')
   const username = core.getInput('username')
   const password = core.getInput('password')
-  const local= core.getInput('local') === 'true'
+  const local= core.getBooleanInput('local')
 
   core.saveState('registry', registry)
   await login(registry, username, password, local)
