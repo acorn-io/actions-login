@@ -42,12 +42,15 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.logout = exports.login = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
-function login(registry, username, password) {
+function login(registry, username, password, local) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!registry || !username || !password) {
             throw new Error('Registry, username, and password required');
         }
         const args = ['login', '--password-stdin', '--username', username, registry];
+        if (local) {
+            args.push('--local-storage');
+        }
         core.info(`Logging into ${registry}...`);
         const res = yield exec.getExecOutput('acorn', args, {
             ignoreReturnCode: true,
@@ -121,8 +124,9 @@ function setup() {
         const registry = core.getInput('registry');
         const username = core.getInput('username');
         const password = core.getInput('password');
+        const local = core.getBooleanInput('local');
         core.saveState('registry', registry);
-        yield (0, login_1.login)(registry, username, password);
+        yield (0, login_1.login)(registry, username, password, local);
     });
 }
 function teardown() {
