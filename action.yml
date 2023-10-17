@@ -11,6 +11,10 @@ inputs:
   password:
     description: Password
     required: true
+  local:
+    description: "Adds the `--local-storage` argument to `acorn login` if set to 'true'"
+    required: false
+    default: 'false'
 runs:
   using: 'node16'
   main: 'dist/index.js'

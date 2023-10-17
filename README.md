@@ -21,11 +21,12 @@ steps:
 
 # Options
 
-| Key        | Default      | Description |
-| ---------- | ------------ | ----------- |
-| `registry` | **Required** | Registry address to login to (e.g. ghcr.io or docker.io)
-| `username` | **Required** | Registry username
-| `password` | **Required** | Registry password
+| Key        | Default      | Description                                                           |
+|------------|--------------|-----------------------------------------------------------------------|
+| `registry` | **Required** | Registry address to login to (e.g. ghcr.io or docker.io)              |
+| `username` | **Required** | Registry username                                                     |
+| `password` | **Required** | Registry password                                                     |
+| `local`    | false        | Adds the `--local-storage` argument to `acorn login` if set to `true` |
 
 # License
 

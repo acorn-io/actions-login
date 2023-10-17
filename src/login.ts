@@ -4,13 +4,18 @@ import * as exec from '@actions/exec'
 export async function login(
   registry: string,
   username: string,
-  password: string
+  password: string,
+  local:    boolean,
 ): Promise<void> {
   if (!registry || !username || !password) {
     throw new Error('Registry, username, and password required')
   }
 
   const args = ['login', '--password-stdin', '--username', username, registry]
+
+  if (local) {
+    args.push('--local-storage')
+  }
 
   core.info(`Logging into ${registry}...`)
 
