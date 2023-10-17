@@ -22,8 +22,9 @@ test('loginStandard calls exec', async () => {
 
   const username = 'hello'
   const password = 'world'
+  const local = false
 
-  await login(registry, username, password)
+  await login(registry, username, password, local)
 
   expect(execSpy).toHaveBeenCalledWith(
     `acorn`,

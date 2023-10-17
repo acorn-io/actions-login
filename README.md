@@ -15,6 +15,7 @@ steps:
     registry: ${{secrets.YOUR_REGISTRY}}
     username: ${{secrets.YOUR_USERNAME}}
     password: ${{secrets.YOUR_PASSWORD}}
+    local:    false
 - run: |
   acorn build . # Whatever you want to do with acorn
 ```
@@ -26,6 +27,7 @@ steps:
 | `registry` | **Required** | Registry address to login to (e.g. ghcr.io or docker.io)
 | `username` | **Required** | Registry username
 | `password` | **Required** | Registry password
+| `local`    | 'false'      | Adds the `--local-storage` argument to `acorn login` if set to 'true'
 
 # License
 

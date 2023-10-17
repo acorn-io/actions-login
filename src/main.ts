@@ -5,9 +5,10 @@ async function setup(): Promise<void> {
   const registry = core.getInput('registry')
   const username = core.getInput('username')
   const password = core.getInput('password')
+  const local= core.getInput('local') === 'true'
 
   core.saveState('registry', registry)
-  await login(registry, username, password)
+  await login(registry, username, password, local)
 }
 
 async function teardown(): Promise<void> {
